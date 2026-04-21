@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Boreka Group | Global Climate Infrastructure</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;400;600;800&family=Space+Grotesk:wght@300;700&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <style>
+        :root {
+            --primary: #22c55e;
+            --secondary: #10b981;
+            --dark: #020617;
+            --slate: #1e293b;
+            --glass: rgba(15, 23, 42, 0.8);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--dark);
+            color: #f8fafc;
+            overflow-x: hidden;
+        }
+
+        /* --- ADVANCED SCROLLBAR --- */
+        ::-webkit-scrollbar { width: 12px; }
+        ::-webkit-scrollbar-track { background: #0f172a; }
+        ::-webkit-scrollbar-thumb { 
+            background: linear-gradient(var(--primary), var(--secondary)); 
+            border-radius: 6px;
+            border: 3px solid #0f172a;
+        }
+
+        /* --- ANIMATIONS & KEYFRAMES --- */
+        @keyframes tickerScroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        @keyframes pulseBorder {
+            0% { border-color: rgba(34, 197, 94, 0.2); }
+            50% { border-color: rgba(34, 197, 94, 0.8); }
+            100% { border-color: rgba(34, 197, 94, 0.2); }
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .animate-slide-up { animation: slideUp 1s ease-out forwards; }
+
+        .ticker-container {
+            background: #0f172a;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            white-space: nowrap;
+            overflow: hidden;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+
+        .ticker-content {
+            display: inline-block;
+            animation: tickerScroll 40s linear infinite;
+        }
+
+        .ticker-unit {
+            display: inline-block;
+            padding: 12px 40px;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #94a3b8;
+        }
+
+        .glass-nav {
+            background: rgba(2, 6, 23, 0.8);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .hero-gradient {
+            background: radial-gradient(circle at 10% 20%, rgba(34, 197, 94, 0.1) 0%, transparent 40%),
+                        radial-gradient(circle at 90% 80%, rgba(16, 185, 129, 0.1) 0%, transparent 40%);
+        }
+
+        .map-container {
+            background: url('https://www.transparenttextures.com/patterns/carbon-fibre.png');
+            position: relative;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .impact-dot {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background: var(--primary);
+            border-radius: 50%;
+            box-shadow: 0 0 15px var(--primary);
+            cursor: pointer;
+        }
+
+        .impact-dot::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: var(--primary);
+            animation: pulse-ring 2s infinite;
+        }
+
+        @keyframes pulse-ring {
+            0% { transform: scale(1); opacity: 0.8; }
+            100% { transform: scale(3); opacity: 0; }
+        }
+
+        .gallery-card {
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .gallery-card:hover {
+            transform: scale(1.02);
+            filter: brightness(1.1);
+        }
+
+        /* --- CUSTOM FORM ELEMENTS --- */
+        .portal-input {
+            background: rgba(15, 23, 42, 0.5);
+            border: 2px solid rgba(255,255,255,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .portal-input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 20px rgba(34, 197, 94, 0.1);
+            outline: none;
+        }
+
+        /* --- TIMELINE STYLES --- */
+        .timeline-step {
+            position: relative;
+            padding-left: 40px;
+            border-left: 2px solid #1e293b;
+        }
+
+        .timeline-step::before {
+            content: '';
+            position: absolute;
+            left: -9px;
+            top: 0;
+            width: 16px;
+            height: 16px;
+            background: var(--primary);
+            border-radius: 50%;
+        }
+
+    </style>
+</head>
+<body class="hero-gradient">
+
+    <div class="ticker-container">
+        <div class="ticker-content">
+            <span class="ticker-unit"><span class="text-green-500">●</span> 542,030 Trees Live</span>
+            <span class="ticker-unit"><span class="text-green-500">●</span> 12.4k Tons Offset</span>
+            <span class="ticker-unit"><span class="text-green-500">●</span> $2.1M Impact Generated</span>
+            <span class="ticker-unit"><span class="text-green-500">●</span> DC HQ Launching Q4 2026</span>
+            <span class="ticker-unit"><span class="text-green-500">●</span> 5,120 Smallholders</span>
+            <span class="ticker-unit"><span class="text-green-500">●</span> 542,030 Trees Live</span>
+            <span class="ticker-unit"><span class="text-green-500">●</span> 12.4k Tons Offset</span>
+            <span class="ticker-unit"><span class="text-green-500">●</span> $2.1M Impact Generated</span>
+        </div>
+    </div>
+
+    <nav class="glass-nav fixed top-[40px] w-full z-[1000] px-8 py-5 flex justify-between items-center">
+        <div class="flex items-center gap-3">
+            <div class="h-10 w-10 bg-green-500 rounded-xl flex items-center justify-center font-black text-slate-900">B</div>
+            <div class="font-black text-2xl tracking-tighter">BOREKA <span class="text-green-500">GROUP</span></div>
+        </div>
+        <div class="hidden lg:flex gap-10 items-center text-xs font-bold uppercase tracking-widest text-slate-400">
+            <a href="#" class="hover:text-white transition">Home</a>
+            <a href="#map" class="hover:text-white transition">Impact Map</a>
+            <a href="#gallery" class="hover:text-white transition">Gallery</a>
+            <a href="#posts" class="hover:text-white transition">Posts</a>
+            <a href="#funding" class="bg-green-600 px-6 py-3 rounded-full text-white hover:bg-green-500 transition shadow-lg shadow-green-900/40">Launch Portal</a>
+        </div>
+    </nav>
+
+    <section class="min-h-screen pt-48 pb-20 px-8 max-w-7xl mx-auto grid lg:grid-cols-2 gap-20 items-center">
+        <div class="space-y-10 animate-slide-up">
+            <div class="inline-block px-4 py-1 rounded-full border border-green-500/30 bg-green-500/5 text-green-500 text-[10px] font-black tracking-widest uppercase">
+                International Expansion 2026
+            </div>
+            <h1 class="text-8xl font-black leading-[0.9] tracking-tighter">
+                Global Soil. <br> <span class="text-green-500">Local Impact.</span>
+            </h1>
+            <p class="text-slate-400 text-xl leading-relaxed max-w-lg">
+                Modernizing the bridge between North American climate funding and Kenyan rural agriculture through high-fidelity data and verified carbon sequestration.
+            </p>
+            <div class="flex gap-6">
+                <button class="px-10 py-5 bg-white text-slate-900 font-black rounded-2xl hover:bg-green-500 hover:text-white transition-all uppercase text-xs tracking-widest">Invest Now</button>
+                <button class="px-10 py-5 border border-slate-700 font-black rounded-2xl hover:bg-slate-800 transition-all uppercase text-xs tracking-widest">Our Science</button>
+            </div>
+        </div>
+        <div class="relative group">
+            <div class="absolute -inset-4 bg-green-500/20 blur-3xl opacity-30 group-hover:opacity-50 transition duration-1000"></div>
+            <div class="relative bg-slate-800 rounded-[3rem] overflow-hidden border border-white/10 shadow-2xl">
+                <img src="https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?q=80&w=1000" class="w-full h-[600px] object-cover" alt="Farmer">
+                <div class="absolute bottom-0 left-0 right-0 p-10 bg-gradient-to-t from-slate-950 to-transparent">
+                    <div class="flex justify-between items-end">
+                        <div>
+                            <p class="text-xs font-bold text-green-500 uppercase tracking-widest">Field Site Alpha</p>
+                            <h3 class="text-2xl font-bold">Rift Valley Cluster</h3>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-4xl font-black">40k+</p>
+                            <p class="text-[10px] text-slate-400 uppercase font-bold">Trees Protected</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="map" class="py-32 px-8 bg-slate-950/50">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-20">
+                <h2 class="text-5xl font-black mb-6">Our Global Footprint</h2>
+                <p class="text-slate-500 uppercase font-bold text-xs tracking-[0.3em]">Connecting Kenya to the United States</p>
+            </div>
+            <div class="map-container w-full h-[500px] rounded-[3rem] overflow-hidden bg-slate-900 border border-slate-800 relative">
+                <div class="impact-dot" style="top: 65%; left: 60%;" title="Nairobi Headquarters"></div>
+                <div class="absolute top-[68%] left-[62%] text-xs font-bold text-green-500">Nairobi HQ (Operational)</div>
+                
+                <div class="impact-dot" style="top: 35%; left: 25%; background: #60a5fa; box-shadow: 0 0 15px #60a5fa;" title="Washington D.C. HQ"></div>
+                <div class="absolute top-[32%] left-[20%] text-xs font-bold text-blue-400">Washington D.C. Hub (Q4 2026)</div>
+                
+                <svg class="absolute inset-0 w-full h-full pointer-events-none">
+                    <path d="M 25% 35% Q 40% 10% 60% 65%" stroke="rgba(34, 197, 94, 0.2)" stroke-width="2" fill="transparent" stroke-dasharray="10,10" />
+                </svg>
+            </div>
+        </div>
+    </section>
+
+    <section id="funding" class="py-40 px-8 relative">
+        <div class="max-w-6xl mx-auto glass-morphism rounded-[4rem] p-12 md:p-24 shadow-3xl relative overflow-hidden">
+            <div class="absolute top-0 right-0 p-10">
+                <div class="text-right">
+                    <p class="text-xs font-bold text-slate-500 uppercase tracking-widest">Portal Version</p>
+                    <p class="text-xl font-black text-green-500">v2.0.4 - GLOBAL</p>
+                </div>
+            </div>
+
+            <div class="grid lg:grid-cols-2 gap-24">
+                <div class="space-y-12">
+                    <h3 class="text-5xl font-black tracking-tighter">Scale Your <span class="text-green-500">Forest.</span></h3>
+                    
+                    <div class="space-y-8">
+                        <div>
+                            <label class="block text-[10px] font-black uppercase text-slate-500 mb-4 tracking-widest">Select Project Species</label>
+                            <select id="portal-species" class="w-full portal-input p-6 rounded-2xl text-xl font-bold text-white">
+                                <option value="moringa">Moringa Oleifera ($5.50)</option>
+                                <option value="mango">Grafted Mango ($8.00)</option>
+                                <option value="acacia">Acacia Tortilis ($4.50)</option>
+                                <option value="bamboo">Giant Bamboo ($6.00)</option>
+                                <option value="cherry">African Cherry ($7.50)</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-[10px] font-black uppercase text-slate-500 mb-4 tracking-widest">Planting Volume</label>
+                            <input id="portal-qty" type="number" value="100" min="1" class="w-full portal-input p-6 rounded-2xl text-5xl font-black text-green-500">
+                        </div>
+                    </div>
+
+                    <div class="p-8 bg-white/5 rounded-3xl border border-white/10">
+                        <h4 class="font-bold mb-2">36-Month Guarantee</h4>
+                        <p class="text-sm text-slate-400 leading-relaxed">
+                            Boreka Group assumes all liability for seedling mortality in the first 3 years. Any tree that fails will be replanted at zero cost to the funder.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="bg-slate-900 rounded-[3rem] p-12 border border-slate-800 flex flex-col justify-between shadow-inner">
+                    <div class="text-center space-y-4">
+                        <p class="text-xs font-bold text-green-500 uppercase tracking-widest">Total Carbon Power</p>
+                        <div class="flex items-center justify-center gap-4">
+                            <span id="portal-co2" class="text-9xl font-black tracking-tighter">2,500</span>
+                            <span class="text-2xl font-bold text-slate-500">KG</span>
+                        </div>
+                        <div class="grid grid-cols-2 gap-4 mt-10">
+                            <div class="bg-slate-800 p-6 rounded-2xl">
+                                <p id="portal-miles" class="text-2xl font-black text-white">6,025</p>
+                                <p class="text-[9px] text-slate-500 font-bold uppercase mt-1">Car Miles Off</p>
+                            </div>
+                            <div class="bg-slate-800 p-6 rounded-2xl">
+                                <p id="portal-cost" class="text-2xl font-black text-green-500">$550.00</p>
+                                <p class="text-[9px] text-slate-500 font-bold uppercase mt-1">Total USD</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-12 space-y-4">
+                        <button class="w-full py-6 bg-white text-slate-900 font-black rounded-2xl uppercase text-xs tracking-widest hover:scale-[1.02] transition">Credit Card</button>
+                        <div class="grid grid-cols-2 gap-4">
+                            <button class="py-5 bg-black text-white border border-slate-700 font-black rounded-2xl flex items-center justify-center gap-2">
+                                <span class="text-2xl"></span> Pay
+                            </button>
+                            <button class="py-5 bg-[#0070ba] text-white font-black rounded-2xl uppercase text-[10px] tracking-widest">PayPal</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="gallery" class="py-32 px-8">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex justify-between items-end mb-16">
+                <h2 class="text-5xl font-black">Field <span class="text-green-500 italic">Verify.</span></h2>
+                <p class="text-slate-400 font-bold text-xs uppercase tracking-widest">High-Resolution Monitoring</p>
+            </div>
+            <div class="grid md:grid-cols-4 gap-6">
+                <div class="gallery-card md:col-span-2 h-80 bg-slate-800 rounded-3xl overflow-hidden shadow-xl">
+                    <img src="https://images.unsplash.com/photo-1592919016327-5050f723ba00?q=80&w=800" class="w-full h-full object-cover">
+                </div>
+                <div class="gallery-card h-80 bg-slate-800 rounded-3xl overflow-hidden shadow-xl">
+                    <img src="https://images.unsplash.com/photo-1589923188900-85dae523342b?q=80&w=800" class="w-full h-full object-cover">
+                </div>
+                <div class="gallery-card h-80 bg-slate-800 rounded-3xl overflow-hidden shadow-xl">
+                    <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=800" class="w-full h-full object-cover">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-32 px-8 bg-slate-900/30">
+        <div class="max-w-4xl mx-auto">
+            <h3 class="text-3xl font-black mb-16 text-center tracking-tighter">Project Growth Cycle</h3>
+            <div class="space-y-12">
+                <div class="timeline-step">
+                    <h4 class="font-black text-xl">Month 0: Seedling Activation</h4>
+                    <p class="text-slate-500 text-sm">Nursery prep and smallholder allocation based on portal funding.</p>
+                </div>
+                <div class="timeline-step">
+                    <h4 class="font-black text-xl">Month 3: Field Deployment</h4>
+                    <p class="text-slate-500 text-sm">Geo-tagging and initial planting in high-impact Rift Valley clusters.</p>
+                </div>
+                <div class="timeline-step">
+                    <h4 class="font-black text-xl">Month 12+: Maturity & Carbon</h4>
+                    <p class="text-slate-500 text-sm">Quarterly audits and verified carbon sequestration reporting for funders.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer id="contact" class="bg-slate-950 border-t border-slate-900 py-32 px-8">
+        <div class="max-w-7xl mx-auto grid md:grid-cols-4 gap-20">
+            <div class="col-span-2 space-y-8">
+                <h2 class="text-3xl font-black">BOREKA GROUP</h2>
+                <p class="text-slate-500 leading-loose max-w-sm">Leading the global transition to climate-smart agroforestry from the heart of Kenya.</p>
+                <div class="flex gap-4">
+                    <div class="w-12 h-12 bg-slate-900 border border-slate-800 rounded-2xl hover:border-green-500 transition cursor-pointer"></div>
+                    <div class="w-12 h-12 bg-slate-900 border border-slate-800 rounded-2xl hover:border-green-500 transition cursor-pointer"></div>
+                </div>
+            </div>
+            <div class="space-y-6">
+                <h4 class="text-xs font-black uppercase tracking-widest text-white">Project Nodes</h4>
+                <ul class="text-slate-500 text-sm space-y-3 font-bold">
+                    <li>Nairobi, Kenya (HQ)</li>
+                    <li>Washington D.C., USA (2026)</li>
+                    <li>Kisumu Cluster</li>
+                    <li>Mombasa Logistics</li>
+                </ul>
+            </div>
+            <div class="space-y-6">
+                <h4 class="text-xs font-black uppercase tracking-widest text-white">Contact CEO Office</h4>
+                <ul class="text-slate-500 text-sm space-y-3 font-bold">
+                    <li>info@boreka.co.ke</li>
+                    <li>+254 700 000 000</li>
+                </ul>
+            </div>
+        </div>
+        <div class="mt-24 pt-10 border-t border-slate-900 text-center">
+            <p class="text-[10px] font-black uppercase tracking-[0.5em] text-slate-700">© 2026 BOREKA GROUP INTERNATIONAL. SCALE WITH US.</p>
+        </div>
+    </footer>
+
+    <script>
+        const speciesSel = document.getElementById('portal-species');
+        const qtyInp = document.getElementById('portal-qty');
+        const co2Txt = document.getElementById('portal-co2');
+        const mileTxt = document.getElementById('portal-miles');
+        const costTxt = document.getElementById('portal-cost');
+
+        const portalData = {
+            moringa: { rate: 25.0, price: 5.50 },
+            mango: { rate: 22.0, price: 8.00 },
+            acacia: { rate: 28.5, price: 4.50 },
+            bamboo: { rate: 18.0, price: 6.00 },
+            cherry: { rate: 24.0, price: 7.50 }
+        };
+
+        function runPortalUpdate() {
+            const species = speciesSel.value;
+            const count = parseInt(qtyInp.value) || 0;
+            const meta = portalData[species];
+
+            // Calculations
+            const carbon = (count * meta.rate).toFixed(0);
+            const miles = (carbon * 2.41).toFixed(0);
+            const total = (count * meta.price).toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+
+            // UI Refresh
+            co2Txt.innerText = parseInt(carbon).toLocaleString();
+            mileTxt.innerText = parseInt(miles).toLocaleString();
+            costTxt.innerText = total;
+
+            // Feedback Animation
+            co2Txt.classList.add('scale-105', 'text-green-500');
+            setTimeout(() => {
+                co2Txt.classList.remove('scale-105', 'text-green-500');
+            }, 200);
+        }
+
+        speciesSel.addEventListener('change', runPortalUpdate);
+        qtyInp.addEventListener('input', runPortalUpdate);
+        
+        // Boot
+        runPortalUpdate();
+
+        // Map Tooltips (Simple Alert simulation)
+        document.querySelectorAll('.impact-dot').forEach(dot => {
+            dot.addEventListener('click', function() {
+                alert(this.getAttribute('title') + " Active Site.");
+            });
+        });
+    </script>
+</body>
+</html>
